@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true" >
+        <shape>
+            <gradient
+                android:startColor="@color/pressed1"
+                android:endColor="@color/pressed2"
+                android:angle="270" />
+            <stroke android:width="3dp"
+                    android:color="@color/stroke" /> 테두리
+            <corners android:radius="3dp" /> 라운드
+            <padding
+                android:left="10dp"
+                android:top="10dp"
+                android:right="10dp"
+                android:bottom="10dp" />
+        </shape>
+    </item>
+    <item android:state_focused="true" >
+        <shape>
+            <gradient
+                android:startColor="@color/focused1"
+                android:endColor="@color/focused2"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/stroke" />
+            <corners
+                android:radius="3dp" />
+            <padding
+                android:left="10dp"
+                android:top="10dp"
+                android:right="10dp"
+                android:bottom="10dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <gradient
+                android:startColor="@color/default1"
+                android:endColor="@color/default2"
+                android:angle="270" />
+            <stroke
+                android:width="3dp"
+                android:color="@color/stroke" />
+            <corners
+                android:radius="3dp" />
+            <padding
+                android:left="10dp"
+                android:top="10dp"
+                android:right="10dp"
+                android:bottom="10dp" />
+        </shape>
+    </item>
+</selector>

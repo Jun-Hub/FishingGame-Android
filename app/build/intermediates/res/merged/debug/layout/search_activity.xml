@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    android:orientation="vertical"
+    android:background="@drawable/under_sea"
+    android:weightSum="1">
+
+    <ListView
+        android:id="@+id/playerListView"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:divider="#00000000"
+        android:dividerHeight="0px"
+        android:background="#1e000000"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    </ListView>
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/customed_button3"
+        android:text="게 임 하 기"
+        android:textSize="25sp"
+        android:textColor="#000000"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/chatListButton"
+        android:layout_alignStart="@+id/chatListButton" />
+
+    <Button
+        android:id="@+id/chatListButton"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="35dp"
+        android:background="@drawable/customed_button3"
+        android:text="개 인 채 팅"
+        android:textSize="25sp"
+        android:textColor="#000000"
+        android:layout_below="@+id/searchButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:id="@+id/chatNum"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="30dp"
+        android:padding="3dip"
+        android:layout_below="@+id/searchButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ff0004"
+        android:background="@drawable/customed_button2"
+        android:text="24"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/listView"
+        android:layout_marginBottom="80dp"
+        android:id="@+id/searchText"
+        android:text="상대방을 검색중입니다"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/listView"
+        android:id="@+id/ImageView"
+        android:layout_centerInParent="true"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:stackFromBottom="true"
+        android:divider="#00ffffff"
+        android:dividerHeight="0px"
+        android:background="@drawable/customed_button2"
+        android:layout_above="@+id/chatLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    </ListView>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/chatLayout"
+        android:orientation="horizontal"
+        android:background="#00cbc5c1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:weightSum="10">
+
+        <AutoCompleteTextView
+            android:id="@+id/chatEditText"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="8"
+            android:completionHint="귓속말할 상대를 고르세요"
+            android:completionThreshold="2"
+            android:imeOptions="actionSend"
+            android:inputType="textMultiLine"
+            android:paddingLeft="10dp" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="2"
+            android:text="전송"
+            android:textSize="18sp"
+            android:background="@drawable/customed_button"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

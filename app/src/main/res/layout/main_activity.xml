@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/in_sea"
+    android:weightSum="1">
+
+    <ImageView
+        android:layout_width="220dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/fishing_logo"/>
+
+    <EditText
+        android:id="@+id/IDEdit"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/customed_edittext"
+        android:hint="ID"
+        android:paddingLeft="15dp" />
+
+    <EditText
+        android:id="@+id/passwordEdit"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:inputType="textPassword"
+        android:paddingLeft="15dp"
+        android:background="@drawable/customed_edittext"
+        android:hint="Password"/>
+
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:background="@drawable/customed_button"
+        android:text="L O G I N"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:id="@+id/signupBtn"
+        android:background="@drawable/customed_button2"
+        android:text="Not a member yet? Sign up now!"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="15dp"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebookBtn"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp" />
+
+    <com.kakao.usermgmt.LoginButton
+        android:id="@+id/com_kakao_login"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"/>
+
+
+</LinearLayout>

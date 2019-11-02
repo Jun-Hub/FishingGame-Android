@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\build\\intermediates\\res\\merged\\debug\\raw\\finish_game.mp3",
+        "source": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\src\\main\\res\\raw\\finish_game.mp3"
+    },
+    {
+        "merged": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\build\\intermediates\\res\\merged\\debug\\raw\\scream.mp3",
+        "source": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\src\\main\\res\\raw\\scream.mp3"
+    },
+    {
+        "merged": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\build\\intermediates\\res\\merged\\debug\\raw\\spear_throw.mp3",
+        "source": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\src\\main\\res\\raw\\spear_throw.mp3"
+    },
+    {
+        "merged": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\build\\intermediates\\res\\merged\\debug\\raw\\first_run.mp3",
+        "source": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\src\\main\\res\\raw\\first_run.mp3"
+    }
+]

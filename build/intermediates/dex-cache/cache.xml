@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Yong\ASPs\FishingGame\app\libs\mongo-java-driver-3.4.0-SNAPSHOT.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="a7be8461d392acc9046e5c2381d06760e6e803c9">
+        <dex dex="C:\Users\Yong\ASPs\FishingGame\app\build\intermediates\pre-dexed\debug\mongo-java-driver-3.4.0-SNAPSHOT_afbcc5e4315080789ed8ff1d6c7752d6e5de61b5.jar" />
+    </item>
+
+</items>

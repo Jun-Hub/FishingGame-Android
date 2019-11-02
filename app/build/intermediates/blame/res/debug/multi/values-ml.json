@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "C:\\Users\\Yong\\ASPs\\FishingGame\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ml\\values-ml.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 64,
+                    "endOffset": 115
+                },
+                "from": {
+                    "file": "C:\\Users\\Yong\\.android\\build-cache\\c0be360fa9e46378ae0a946bd3142ef4a21ed1b2\\output\\res\\values-ml\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 181,
+                        "endColumn": 64,
+                        "endOffset": 241
+                    }
+                }
+            }
+        ]
+    }
+]
