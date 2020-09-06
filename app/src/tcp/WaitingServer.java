@@ -23,49 +23,44 @@ import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 
 public class WaitingServer {
-	// ¿¬°áÇÒ Æ÷Æ®¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
+	// ì—°ê²°í•  í¬íŠ¸
 	private static final int PORT = 8500;
-	// ½º·¹µå Ç®ÀÇ ÃÖ´ë ½º·¹µå °³¼ö¸¦ ÁöÁ¤ÇÕ´Ï´Ù.
+	// ìŠ¤ë ˆë“œ í’€ì˜ ìµœëŒ€ ìŠ¤ë ˆë“œ ê°œìˆ˜
 	private static final int THREAD_CNT = 20;
 	public static ExecutorService threadPool = Executors.newFixedThreadPool(THREAD_CNT);	
 	public static HashMap<String, Socket> waitingMap = new HashMap<>();
-	static HashMap<String, Socket> playingMap = new HashMap<>();	//À¯ÀúÀÇ ´Ğ³×ÀÓ¿Í ¼ÒÄÏ Á¤º¸¸¦ ´ãÀ» ÇØ½¬¸Ê »ı¼º
+	static HashMap<String, Socket> playingMap = new HashMap<>();	//ìœ ì €ì˜ ë‹‰ë„¤ì„ì™€ ì†Œì¼“ ì •ë³´ë¥¼ ë‹´ì„ í•´ì‰¬ë§µ ìƒì„±
 	public static ArrayList<String> userList = new ArrayList<>();
-    static RoomManager roomManager = new RoomManager(); // Å¬·¡½º ½ÃÀÛ ½Ã ÇÑ¹ø¸¸ »ı¼ºÇØ¾ß ÇÑ´Ù.
+    static RoomManager roomManager = new RoomManager(); 
 	
 	public static void main(String[] args) {
 				
-		System.out.println("====================[Waiting112Server]====================");        
 		
 		try {
-			// ¼­¹ö¼ÒÄÏ »ı¼º
+			// ì„œë²„ì†Œì¼“ ìƒì„±
 			ServerSocket serverSocket = new ServerSocket(PORT);	
 			
-			// ¼ÒÄÏ¼­¹ö°¡ Á¾·áµÉ¶§±îÁö ¹«ÇÑ·çÇÁ
+			// ì†Œì¼“ì„œë²„ê°€ ì¢…ë£Œë ë•Œê¹Œì§€ ë¬´í•œë£¨í”„
 			while (true) {
-				// ¼ÒÄÏ Á¢¼Ó ¿äÃ»ÀÌ ¿Ã¶§±îÁö ´ë±âÇÕ´Ï´Ù.
 				Socket clientSocket = serverSocket.accept();
-
-				// ·ëÀ» ÀÏ´Ü ¸¸µé¾î¹ö¸° ÈÄ¿¡ 2¸íÀÌ Â÷¸é ½º·¹µå·Î ³Ñ°Ü¼­ °ÔÀÓ ÁøÇà
 				
-				// 3. ¼ÒÄÏÀ¸·Î ºÎÅÍ ¼Û¼ö½ÅÀ» À§ÇÑ i/o stream À» ¾ò±â
-				InputStream is = clientSocket.getInputStream(); // ¼ö½Å -->	// read();
+				// 3. ì†Œì¼“ìœ¼ë¡œ ë¶€í„° ì†¡ìˆ˜ì‹ ì„ ìœ„í•œ i/o stream ì„ ì–»ê¸°
+				InputStream is = clientSocket.getInputStream(); // ìˆ˜ì‹  -->	// read();
 				BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
 				String userNickName = null;
 				userNickName = br.readLine();
-				System.out.println(userNickName + "´Ô ·Î±×ÀÎ\n");
+				System.out.println(userNickName + "ë‹˜ ë¡œê·¸ì¸\n");
 				
 				waitingMap.put(userNickName, clientSocket);
 				playingMap.put(userNickName, clientSocket);
 				userList.add(userNickName);
 				
-				//·Î±×ÀÎÇÑ À¯Àú¸¦ °¢ ÇÃ·¹ÀÌ¾îµéÇÑÅ× ¾Ë·ÁÁÖ±â	
+				//ë¡œê·¸ì¸í•œ ìœ ì €ë¥¼ ê° í”Œë ˆì´ì–´ë“¤í•œí…Œ ì•Œë ¤ì£¼ê¸°	
 				Iterator<String> iterator = waitingMap.keySet().iterator();
 				while (iterator.hasNext()) {
 					String key = (String) iterator.next();
-					System.out.println("¾êÇÑÅ× : "+ key); 
-					OutputStream outputStream = waitingMap.get(key).getOutputStream(); // ¼Û½Å
+					OutputStream outputStream = waitingMap.get(key).getOutputStream(); // ì†¡ì‹ 
 					PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 					PrintWriter printWriter2 = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 					printWriter2.println("[CLEAR]clear");
@@ -73,7 +68,6 @@ public class WaitingServer {
 					
 					for(String id : waitingMap.keySet()){
 						printWriter.println("[PLAYER]" + id);
-						System.out.println("ÀÌ°Éº¸³¿ : "+ id); 
 						printWriter.flush();
 			        }
 				}
@@ -85,7 +79,7 @@ public class WaitingServer {
 	}
 }
 
-//¼ÒÄÏ Ã³¸®¿ë ·¡ÆÛ Å¬·¡½ºÀÔ´Ï´Ù.
+//ì†Œì¼“ ì²˜ë¦¬ìš© ë˜í¼ í´ë˜ìŠ¤ì…ë‹ˆë‹¤.
 class WaitingChat implements Runnable{
 
 	String userNickName = null;
@@ -124,9 +118,9 @@ class WaitingChat implements Runnable{
 
 					if (msgFromClient.startsWith("[CHAT]")) {
 						Iterator<String> iterator = WaitingServer.waitingMap.keySet().iterator();
-						while (iterator.hasNext()) { // ·Î±×ÀÎÇÑ À¯ÀúµéÇÑÅ× ¸Ş½ÃÁö µ¹¸®±â
+						while (iterator.hasNext()) { // ë¡œê·¸ì¸í•œ ìœ ì €ë“¤í•œí…Œ ë©”ì‹œì§€ ëŒë¦¬ê¸°
 							String key = (String) iterator.next();
-							OutputStream outputStream = WaitingServer.waitingMap.get(key).getOutputStream(); // ¼Û½Å
+							OutputStream outputStream = WaitingServer.waitingMap.get(key).getOutputStream(); // ì†¡ì‹ 
 							PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 							printWriter.println(msgFromClient);
 							printWriter.flush();
@@ -136,42 +130,37 @@ class WaitingChat implements Runnable{
 						String whisper = msgFromClient.substring(9);
 						int sub = whisper.indexOf(" ") + 1;
 						String whispertoWhom = whisper.substring(1, sub-1);
-						System.out.println("±Ó¸» ´ë»ó : " + whispertoWhom);
+						System.out.println("ê·“ë§ ëŒ€ìƒ : " + whispertoWhom);
 						String whisperMsg = whisper.substring(sub);
-						System.out.println("±Ó¸» ³»¿ë : " + whisperMsg);
+						System.out.println("ê·“ë§ ë‚´ìš© : " + whisperMsg);
 						
 						if(WaitingServer.userList.contains(whispertoWhom)) {
-							//±Ó¸»´ë»óÀÌ Á¢¼ÓÇØ ÀÖÀ»°æ¿ì
+							//ê·“ë§ëŒ€ìƒì´ ì ‘ì†í•´ ìˆì„ê²½ìš°
 							pw.println("[WHISPER]" + userNickName + " : " + whisperMsg);
 							pw.flush();
-							//if(WaitingServer.playingMap.containsKey(whispertoWhom)) {	//±Ó¸» »ó´ë°¡ ÇÃ·¹ÀÌ ÁßÀÏ°æ¿ì
-								OutputStream outputStream2 = WaitingServer.playingMap.get(whispertoWhom).getOutputStream(); // ¼Û½Å
-								PrintWriter printWriter2 = new PrintWriter(new OutputStreamWriter(outputStream2, "UTF-8"));
-								printWriter2.println("[WHISPER]" + userNickName + " : " + whisperMsg);
-								printWriter2.flush();
-							//} else if(WaitingServer.waitingMap.containsKey(whispertoWhom)) {	//±Ó¸» »ó´ë°¡ ´ë±â½ÇÀÏ °æ¿ì
-							//	OutputStream outputStream2 = WaitingServer.waitingMap.get(whispertoWhom).getOutputStream();
-							//	PrintWriter printWriter2 = new PrintWriter(new OutputStreamWriter(outputStream2, "UTF-8"));
-							//	printWriter2.println("[WHISPER]" + userNickName + " : " + whisperMsg);
-							//	printWriter2.flush();
-							//}							
+							
+							OutputStream outputStream2 = WaitingServer.playingMap.get(whispertoWhom).getOutputStream(); // ì†¡ì‹ 
+							PrintWriter printWriter2 = new PrintWriter(new OutputStreamWriter(outputStream2, "UTF-8"));
+							printWriter2.println("[WHISPER]" + userNickName + " : " + whisperMsg);
+							printWriter2.flush();
+								
 						} else {						
 							pw.println("[WHISPERTONULL]");
 							pw.flush();
 						}
 					} else if(msgFromClient.startsWith("[START]")) {
 						String ownerNickName = msgFromClient.substring(7);
-						//°ÔÀÓ ÁøÇà À¯Àú¸ñ·Ï¿¡ ³Ö¾îÁÖ°í
-						//WaitingServer.playingMap.put(userNickName, WaitingServer.waitingMap.get(userNickName));
-						//WaitingServer.playingMap.put(ownerNickName, WaitingServer.waitingMap.get(ownerNickName));
-						//´ë±â½Ç À¯Àú¸ñ·Ï¿¡¼­´Â ¸í´Ü »èÁ¦
+						//ê²Œì„ ì§„í–‰ ìœ ì €ëª©ë¡ì— ë„£ì–´ì£¼ê³ 
+						WaitingServer.playingMap.put(userNickName, WaitingServer.waitingMap.get(userNickName));
+						WaitingServer.playingMap.put(ownerNickName, WaitingServer.waitingMap.get(ownerNickName));
+						//ëŒ€ê¸°ì‹¤ ìœ ì €ëª©ë¡ì—ì„œëŠ” ëª…ë‹¨ ì‚­ì œ
 						WaitingServer.waitingMap.remove(userNickName);
 						WaitingServer.waitingMap.remove(ownerNickName);
-						//°ÔÀÓ½ÃÀÛÇÑ À¯Àú¸¦ °¢ ÇÃ·¹ÀÌ¾îµéÇÑÅ× ¾Ë·ÁÁà¼­ ´ë±âÀÚ¸®½ºÆ® ´Ù½Ã ¾÷µ«	
+						//ê²Œì„ì‹œì‘í•œ ìœ ì €ë¥¼ ê° í”Œë ˆì´ì–´ë“¤í•œí…Œ ì•Œë ¤ì¤˜ì„œ ëŒ€ê¸°ìë¦¬ìŠ¤íŠ¸ ë‹¤ì‹œ ì—…ëƒ	
 						Iterator<String> iterator = WaitingServer.waitingMap.keySet().iterator();
 						while (iterator.hasNext()) {
 							String key = (String) iterator.next();
-							OutputStream outputStream = WaitingServer.waitingMap.get(key).getOutputStream(); // ¼Û½Å
+							OutputStream outputStream = WaitingServer.waitingMap.get(key).getOutputStream(); // ì†¡ì‹ 
 							PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 							PrintWriter printWriter2 = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 							printWriter2.println("[CLEAR]clear");
@@ -183,107 +172,6 @@ class WaitingChat implements Runnable{
 					        }
 						}
 					}
-					
-					
-					
-					
-					/*else if(msgFromClient.startsWith("[SEARCH]")) {
-						
-						String userNickName = msgFromClient.substring(8);
-						
-						System.out.println(userNickName + "´Ô Á¢¼Ó");
-						System.out.println("");
-						
-						WaitingServer.playingMap.put(userNickName, clientSocket);		//ÇØ½¬¸Ê¿¡ À¯Àú ´Ğ³×ÀÓ°ú ¼ÒÄÏÁ¤º¸ ´ã±â
-						
-						//À¯Àú°¡ µé¾î°¥ ¹æÀÌ ÀÖ³ª »õ·Î »ı¼ºÇØ¾ßÇÏ³ª °Ë»öÇÏ´Â °úÁ¤		
-						for(int i=0; i<WaitingServer.roomManager.roomList.size(); i++) {	//roomList¸¦ µ¹¸ç 
-							
-							int j =0;	//roomList¸¦ ´Ù µ¹¾Ò´ÂÁö È®ÀÎ¿ë º¯¼ö
-												
-							if(WaitingServer.roomManager.roomList.get(i).full == false) {	//´ë±â¹æÀÌ ÀÖÀ»°æ¿ì
-								
-								GameRoom waitingRoom = WaitingServer.roomManager.roomList.get(i);	//´ë±â¹æ
-								
-								waitingRoom.AddUser(userNickName);	//´ë±â¹æ¿¡ À¯Àú Ãß°¡(RoomÀÇ À¯Àú¸®½ºÆ®¿¡ Ãß°¡)
-																		
-								waitingRoom.full = true;	//2¸íÀÇ À¯Àú·Î ²Ë Âş´Ù´Â °É ¾Ë·ÁÁÜ
-								
-								System.out.println("*system : " + userNickName + "´Ô ´ë±â¹æ¿¡ ÀÔÀå ÈÄ °ÔÀÓ ½ÃÀÛ");
-								System.out.println("*system : " + waitingRoom.GetOwner() + "´Ô »õ·Î¿î À¯Àú ÀÔÀåÇÏ¿© °ÔÀÓ ½ÃÀÛ");
-								
-								Socket ownerSocket = WaitingServer.playingMap.get(waitingRoom.GetOwner());	//´ë±â¹æ¿¡ ÀÖ´ø ¹æ ÁÖÀÎ ¼ÒÄÏ						
-								OutputStream ownerOutput = ownerSocket.getOutputStream();
-								PrintWriter ownerPw = new PrintWriter(ownerOutput);
-														
-								pw.println("[START]");
-								ownerPw.println("[START]");
-								pw.flush();
-								ownerPw.flush();
-								
-								WaitingServer.waitingMap.remove(userNickName);
-								WaitingServer.waitingMap.remove(waitingRoom.GetOwner());
-								//°ÔÀÓ½ÃÀÛÇÑ À¯Àú¸¦ °¢ ÇÃ·¹ÀÌ¾îµéÇÑÅ× ¾Ë·ÁÁà¼­ ´ë±âÀÚ¸®½ºÆ® ´Ù½Ã ¾÷µ«	
-								Iterator<String> iterator = WaitingServer.waitingMap.keySet().iterator();
-								while (iterator.hasNext()) {
-									String key = (String) iterator.next();
-									System.out.println("¾êÇÑÅ× : "+ key); 
-									OutputStream outputStream = WaitingServer.waitingMap.get(key).getOutputStream(); // ¼Û½Å
-									PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-									PrintWriter printWriter2 = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-									printWriter2.println("[CLEAR]clear");
-									printWriter2.flush();
-									
-									for(String id : WaitingServer.waitingMap.keySet()){
-										printWriter.println("[PLAYER]" + id);
-										System.out.println("ÀÌ°Éº¸³¿ : "+ id); 
-										printWriter.flush();
-							        }
-								}
-								
-								try{	//¹æ¿¡ÀÖ´Â µÎ À¯Àú ¸ğµÎ ½º·¹µå ½ÃÀÛÇÔÀ¸·Î½á °× ½ÃÀÛ
-									// ¿äÃ»ÀÌ ¿À¸é ½º·¹µå Ç®ÀÇ ½º·¹µå·Î ¼ÒÄÏÀ» ³Ö¾îÁİ´Ï´Ù.
-									// ÀÌÈÄ´Â ½º·¹µå ³»¿¡¼­ Ã³¸®ÇÕ´Ï´Ù.
-									
-									WaitingServer.threadPool.execute(new PlayingLogic(ownerSocket, waitingRoom, 0));
-									WaitingServer.threadPool.execute(new PlayingLogic(clientSocket, waitingRoom, 1));
-									PlayingLogic playingLogic = new PlayingLogic(ownerSocket, waitingRoom, 0);
-									playingLogic.start();									
-									PlayingLogic playingLogic2 = new PlayingLogic(clientSocket, waitingRoom, 1);
-									playingLogic2.start();
-																		
-								}catch(Exception e){
-									e.printStackTrace();
-								}
-								
-								break;
-							}
-							
-							j++;
-												
-							if(j == WaitingServer.roomManager.roomList.size()) {	//roomList¸¦ ´Ù µ¹¾Ò´Âµ¥µµ ´ë±â¹æÀÌ ³ª¿ÀÁö ¾Ê¾Ò´Ù¸é, »õ·Î¿î ¹æ »ı¼º
-								GameRoom room = new GameRoom(false, userNickName);	//À¯Àú°¡ ¹æÀ» ¸¸µé¾î¼­, µ¿½Ã¿¡ ¹æÀÇ À¯Àú¸®½ºÆ®¿¡ ¹æÀåÀ¸·Î Ãß°¡µÊ
-								
-								WaitingServer.roomManager.CreateRoom(room);	//·ë¸Å´ÏÀúÀÇ ÇØ½¬¸Ê¿¡ ·ë Ãß°¡
-								
-								System.out.println("*system : " + userNickName + "´Ô ´ë±âÁß...");
-								pw.println("*system : ´Ù¸¥ À¯Àú¸¦ ±â´Ù¸®´Â Áß....");
-								pw.flush();
-															
-								
-								break;
-							}
-						}	
-						
-						if(WaitingServer.roomManager.roomList.size() == 0) {	//¸¸µé¾îÁø ¹æÀÌ ÇÏ³ªµµ ¾ø´Ù¸é
-							GameRoom room = new GameRoom(false, userNickName);	//À¯Àú°¡ ¹æÀ» ¸¸µé¾î¼­, µ¿½Ã¿¡ ¹æÀÇ À¯Àú¸®½ºÆ®¿¡ ¹æÀåÀ¸·Î Ãß°¡µÊ
-							
-							WaitingServer.roomManager.CreateRoom(room);	//·ë¸Å´ÏÀúÀÇ ¸®½ºÆ®¿¡ ·ë Ãß°¡
-							
-							System.out.println("*system : " + userNickName + "´Ô ´ë±âÁß...\n");
-						}
-						
-					}*/
 				}
 			}
 		} catch (IOException e) {
@@ -295,297 +183,13 @@ class WaitingChat implements Runnable{
 	
 	public void close() {
 		try {
-			// 4. ¼ÒÄÏ ´İ±â --> ¿¬°á ²÷±â
+			// 4. ì†Œì¼“ ë‹«ê¸° --> ì—°ê²° ëŠê¸°
 			is.close();
 			br.close();
 			os.close();
 			pw.close();
-			System.out.println("Å¬¶ó ¼ÒÄÏ close ¿Ï·á");
 		} catch (IOException e) {
-			System.out.println("close¿¡·¯");
 			e.printStackTrace();
 		}
 	}
 }
-
-/*class PlayingLogic implements Runnable {
-	
-	private Socket clientSocket = null;
-	private GameRoom playingRoom = null;
-	private String clientNickName = null;
-	private String enemyNickName = null;
-	private int playerNum;
-	
-	InputStream myIs = null;
-	BufferedReader myBr = null;
-	OutputStream enemyOs, myOs = null;
-	PrintWriter enemyPw, myPw = null;
-	
-	public PlayingLogic(Socket clientSocket, GameRoom playingRoom, int playerNum) {
-
-		this.clientSocket = clientSocket;
-		this.playingRoom = playingRoom;
-		this.playerNum = playerNum;
-
-		try {
-			// 3. ¼ÒÄÏÀ¸·Î ºÎÅÍ ¼Û¼ö½ÅÀ» À§ÇÑ i/o stream À» ¾ò±â
-			
-			int enemyNum=6969;
-
-			if (playerNum == 0) {
-				enemyNum = 1;
-			} else if (playerNum == 1) {
-				enemyNum = 0;
-			}
-
-			clientNickName = playingRoom.userList.get(playerNum);
-			enemyNickName = playingRoom.userList.get(enemyNum);
-
-			Socket enemySocket = WaitingServer.playingMap.get(enemyNickName);
-
-			enemyOs = enemySocket.getOutputStream();
-			enemyPw = new PrintWriter(new OutputStreamWriter(enemyOs, "UTF-8"));
-
-			myIs = clientSocket.getInputStream(); // ¼ö½Å --> read();
-			myBr = new BufferedReader(new InputStreamReader(myIs, "UTF-8"));
-			myOs = clientSocket.getOutputStream(); // ¼Û½Å --> write();
-			myPw = new PrintWriter(myOs);
-
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void run() {
-
-		String msgFromClient = null;
-
-		// Å¬¶óÀÌ¾ğÆ®°¡ È¹µæÇÑ Á¡¼ö
-		int myFish = 0;
-
-		try {
-			
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			
-			if (playerNum == 0) {
-				myPw.println("[SPEAR]1");
-				myPw.flush();
-			} else if (playerNum == 1) {
-				myPw.println("[SPEAR]2");
-				myPw.flush();
-			}
-			
-			FishThread fishThread = new FishThread();
-			fishThread.start();
-
-			while (true) { // °ÔÀÓ·ÎÁ÷
-
-				msgFromClient = myBr.readLine();
-
-				if (msgFromClient.startsWith("[SPEAR_X]")) {
-					enemyPw.println(msgFromClient);
-					enemyPw.flush();
-				}
-				if (msgFromClient.startsWith("[SPEAR_Y]")) {
-					enemyPw.println(msgFromClient);
-					enemyPw.flush();
-				}
-				
-				if (msgFromClient.startsWith("[COLLISION]")) {
-					System.out.println("Å¬¶ó·ÎºÎÅÍ [COLLISION]¹Ş¾Ò´Ù...." + msgFromClient + "\n");
-					enemyPw.println(msgFromClient);
-					enemyPw.flush();
-					System.out.println("»ó´ëÇÑÅ× [COLLISION]º¸³Â´Ù...." + msgFromClient + "\n");
-
-					String whatFish = msgFromClient.substring(11);
-					int whatFishNum = Integer.parseInt(whatFish);
-
-					if (whatFishNum == 6) {
-						if (myFish > 0)
-							myFish -= 1;
-					} else if (whatFishNum == 8) {
-						if (myFish > 0)
-							myFish -= 1;
-					} else if (whatFishNum == 9) {
-						if (myFish > 0)
-							myFish -= 1;
-					} else {
-						myFish += 1;
-					}
-				} else if (msgFromClient.startsWith("[GAMEOVER]")) {
-					System.out.println("=========== G A M E  O V E R ===========");
-					// »ó´ë¹æÇÑÅ× ³»°¡ ¾òÀº Á¡¼ö º¸³»ÁÖ±â
-					enemyPw.println("[GAMEOVER]" + myFish);
-					enemyPw.flush();
-					
-					try {	//ÆĞÅ¶ÀÌ ¿À°¡´Â ½Ã°£À» ¹ú±â À§ÇÑ closeÁ÷Àü ´ë±â½Ã°£
-						Thread.sleep(3500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}					
-					break;
-				}
-				
-				if(msgFromClient.startsWith("[CHAT]")) {
-					enemyPw.println(msgFromClient);
-					enemyPw.flush();
-					System.out.println("" + msgFromClient);				
-				} 
-				if(msgFromClient.startsWith("[WHISPER]")) {
-					String whisper = msgFromClient.substring(9);
-					int sub = whisper.indexOf(" ") + 1;
-					String whispertoWhom = whisper.substring(1, sub-1);
-					System.out.println("±Ó¸» ´ë»ó : " + whispertoWhom);
-					String whisperMsg = whisper.substring(sub);
-					System.out.println("±Ó¸» ³»¿ë : " + whisperMsg);
-					
-					if(WaitingServer.userList.contains(whispertoWhom)) {
-						//±Ó¸»´ë»óÀÌ Á¢¼ÓÇØ ÀÖÀ»°æ¿ì
-						myPw.println("[WHISPER]" + clientNickName + " : " + whisperMsg);
-						myPw.flush();
-						if(WaitingServer.playingMap.containsKey(whispertoWhom)) {	//±Ó¸» »ó´ë°¡ ÇÃ·¹ÀÌ ÁßÀÏ°æ¿ì
-							OutputStream outputStream2 = WaitingServer.playingMap.get(whispertoWhom).getOutputStream(); // ¼Û½Å
-							PrintWriter printWriter2 = new PrintWriter(new OutputStreamWriter(outputStream2, "UTF-8"));
-							printWriter2.println("[WHISPER]" + clientNickName + " : " + whisperMsg);
-							printWriter2.flush();
-						} else if(WaitingServer.waitingMap.containsKey(whispertoWhom)) {	//±Ó¸» »ó´ë°¡ ´ë±â½ÇÀÏ °æ¿ì
-							OutputStream outputStream2 = WaitingServer.waitingMap.get(whispertoWhom).getOutputStream();
-							PrintWriter printWriter2 = new PrintWriter(new OutputStreamWriter(outputStream2, "UTF-8"));
-							printWriter2.println("[WHISPER]" + clientNickName + " : " + whisperMsg);
-							printWriter2.flush();
-						}
-					} else {						
-						myPw.println("[WHISPERTONULL]");
-						myPw.flush();
-					}
-				}
-
-				 
-			}
-
-			System.out.println(clientNickName + "´ÔÀÌ ÀâÀº ¹°°í±â : " + myFish + "¸¶¸®");
-			WaitingServer.roomManager.RemoveRoom(playingRoom); // °ÔÀÓÀÌ ³¡³µÀ¸¹Ç·Î ÇØ´ç¹æµµ »èÁ¦
-			playingRoom = null; // ¹æ °´Ã¼ »èÁ¦
-			
-			String inDate = new java.text.SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
-	        String inTime = new java.text.SimpleDateFormat("HHmmss").format(new java.util.Date());
-			
-			MongoClient mongoClient = new MongoClient("119.205.220.8", 27017);
-			System.out.println("¸ù°íDB Á¢¼Ó ¼º°ø");
-
-            //µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á
-            DB db = mongoClient.getDB("test");
-            //ÄÃ·º¼Ç °¡Á®¿À±â
-            DBCollection collection = db.getCollection("playLog");
-
-            int idLength = clientNickName.length();
-
-            //Æ¯Á¤ Á¶°Ç¿¡ ¸Â´Â µ¥ÀÌÅÍ Ãâ·Â
-            BasicDBObject o = new BasicDBObject();
-            o.put("ID", clientNickName);
-            DBCursor cursor = collection.find(o);
-
-            if(!cursor.hasNext()) {//Ã¹ ÇÃ·¹ÀÌ¶ó¸é
-                //user Å×ÀÌºí¿¡ µ¥ÀÌÅÍ»ğÀÔ
-                BasicDBObject doc = new BasicDBObject();
-                doc.put("Date", inDate);
-                doc.put("Time", inTime);
-                doc.put("ID", clientNickName);
-                doc.put("NumofPlaying", 1);
-                doc.put("PlayWithWho", enemyNickName);
-                collection.insert(doc);
-            } else {
-                ArrayList<Integer> list = new ArrayList<>();
-
-                while(cursor.hasNext()){
-                    //·Î±× ¾ÕºÎºĞ ÀÚ¸£±â
-                    String temp = cursor.next().toString().substring(105 + idLength);
-                    System.out.println("temp : "+ temp);
-
-                    //ÀÚ¸¥ ·Î±×Áß ¼ıÀÚ ÃßÃâ
-                    String NumofPlay = temp.replaceAll("[^0-9]", "");;
-                    System.out.println("NumofPlay : " + NumofPlay);
-                    
-                    int numofPlay = Integer.parseInt(NumofPlay);
-
-                    //¸®½ºÆ®¿¡ ¼ıÀÚ Ãß°¡
-                    list.add(numofPlay);
-                }
-
-                //¸®½ºÆ® Áß ÃÖ´ë°ª + 1 = ´©Àû playNum
-                int cumulativeNum = Collections.max(list);
-                cumulativeNum += 1;
-                System.out.println("cumulativeNum : "+ cumulativeNum);
-
-                //user Å×ÀÌºí¿¡ µ¥ÀÌÅÍ»ğÀÔ
-                BasicDBObject doc = new BasicDBObject();
-                doc.put("Date", inDate);
-                doc.put("Time", inTime);
-                doc.put("ID", clientNickName);
-                doc.put("NumofPlaying", cumulativeNum);
-                doc.put("PlayWithWho", enemyNickName);
-                collection.insert(doc);
-                
-                mongoClient.close();
-            }
-
-		} catch (IOException e) {
-			System.out.println("µ¥ÀÌÅ¸ ¼Û¼ö½Å¿¡·¯");
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	public void close(){
-		  try {
-		  // 4. ¼ÒÄÏ ´İ±â --> ¿¬°á ²÷±â
-		   enemyOs.close();
-		   enemyPw.close();
-		   myIs.close();
-		   myBr.close();
-		   myOs.close();
-		   myPw.close();
-		   clientSocket.close();
-		   System.out.println("Å¬¶ó ¼ÒÄÏ close ¿Ï·á");
-		  } catch(IOException e) {
-		   System.out.println("close¿¡·¯");
-		   e.printStackTrace();
-		  }
-	}
-	
-	private class FishThread extends Thread {
-		
-		private FishThread() {
-			
-		}
-		
-		public void run() {
-			for (int i = 0; i < 10; i++) {
-
-				try {
-					Thread.sleep(3 * 1000); // ¹Ğ¸®¼¼ÄÁÁîÀÌ¹Ç·Î 1000À» °öÇÑ´Ù
-					
-					myPw.println("[FISH]");
-					myPw.flush();
-					
-					//System.out.println("¹°°í±â »ı¼º\n");
-					
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			this.interrupt();
-		}
-	}
-}*/
-
-
-
-
-				
