@@ -6,98 +6,82 @@ import java.util.List;
 public class GameRoom {
 
 	List<String> userList;
-	String roomOwner; // ¹æÀå
-	String roomName; // ¹æ ÀÌ¸§
-	int roomNumber; //¹æ ¹øÈ£
-	int ownerFish, clientFish;	//µÎ À¯Àú°¡ ÀâÀº ¹°°í±â ¼ö
+	String roomOwner; // ë°©ì¥
+	String roomName; // ë°© ì´ë¦„
+	int roomNumber; //ë°© ë²ˆí˜¸
+	int ownerFish, clientFish;	//ë‘ ìœ ì €ê°€ ì¡ì€ ë¬¼ê³ ê¸° ìˆ˜
 	int fishEa = 10;
 	
-	Boolean full = false;	//´ë±â¹æÀÎÁöÀÇ ¿©ºÎ
+	Boolean full = false;	//ëŒ€ê¸°ë°©ì¸ì§€ì˜ ì—¬ë¶€
 
-	public GameRoom(Boolean full) { // ¾Æ¹«µµ ¾ø´Â ¹æÀ» »ı¼ºÇÒ ¶§
+	public GameRoom(Boolean full) { // ì•„ë¬´ë„ ì—†ëŠ” ë°©ì„ ìƒì„±í•  ë•Œ
 		userList = new ArrayList<String>();
 		this.full = full;
 	}
 
-	public GameRoom(Boolean full, String _user) { // À¯Àú°¡ ¹æÀ» ¸¸µé¶§
+	public GameRoom(Boolean full, String _user) { // ìœ ì €ê°€ ë°©ì„ ë§Œë“¤ë•Œ
 		userList = new ArrayList<String>();
-		userList.add(_user); // À¯Àú¸¦ Ãß°¡½ÃÅ² ÈÄ
-		this.roomOwner = _user; // ¹æÀåÀ» À¯Àú·Î ¸¸µç´Ù.
+		userList.add(_user); // ìœ ì €ë¥¼ ì¶”ê°€ì‹œí‚¨ í›„
+		this.roomOwner = _user; // ë°©ì¥ì„ ìœ ì €ë¡œ ë§Œë“ ë‹¤.
 		this.full = full;
 	}
 
-	public GameRoom(List<String> _userList) { // À¯Àú ¸®½ºÆ®°¡ ¹æÀ» »ı¼ºÇÒ
-		this.userList = _userList; // À¯Àú¸®½ºÆ® º¹»ç
-		this.roomOwner = userList.get(0); // Ã¹¹øÂ° À¯Àú¸¦ ¹æÀåÀ¸·Î ¼³Á¤
+	public GameRoom(List<String> _userList) { // ìœ ì € ë¦¬ìŠ¤íŠ¸ê°€ ë°©ì„ ìƒì„±í• 
+		this.userList = _userList; // ìœ ì €ë¦¬ìŠ¤íŠ¸ ë³µì‚¬
+		this.roomOwner = userList.get(0); // ì²«ë²ˆì§¸ ìœ ì €ë¥¼ ë°©ì¥ìœ¼ë¡œ ì„¤ì •
 	}
 
 	public void AddUser(String userNickName) {
 		userList.add(userNickName);
 	}
 
-//	public void ExitRoom(String _user) {
-//		userList.remove(_user);
-//
-//		if (userList.size() < 1) { // ¸ğµç ÀÎ¿øÀÌ ´Ù ¹æÀ» ³ª°¬´Ù¸é
-//			RoomManager.RemoveRoom(this); // ÀÌ ¹æÀ» Á¦°ÅÇÑ´Ù.
-//			return;
-//		}
-//
-//		if (userList.size() < 2) { // ¹æ¿¡ ³²Àº ÀÎ¿øÀÌ 1¸í ÀÌÇÏ¶ó
-//			this.roomOwner = userList.get(0); // ¸®½ºÆ®ÀÇ Ã¹¹øÂ° À¯Àú°¡ ¹æÀåÀÌ µÈ´Ù.
-//			return;
-//		}
-//
-//	}
 
-	// °ÔÀÓ ·ÎÁ÷
 	
 	@SuppressWarnings("unused")
 	public void Broadcast(byte[] data) {
-		for (String user : userList) { // ¹æ¿¡ ¼ÓÇÑ À¯ÀúÀÇ ¼ö¸¸Å­ ¹İº¹
-			// °¢ À¯Àú¿¡°Ô µ¥ÀÌÅÍ¸¦ Àü¼ÛÇÏ´Â ¸Ş¼­µå È£Ãâ~
+		for (String user : userList) { // ë°©ì— ì†í•œ ìœ ì €ì˜ ìˆ˜ë§Œí¼ ë°˜ë³µ
+			// ê° ìœ ì €ì—ê²Œ ë°ì´í„°ë¥¼ ì „ì†¡í•˜ëŠ” ë©”ì„œë“œ í˜¸ì¶œ
 			// ex) user.SendData(data);
 			
-//			try {
-//				user.sock.getOutputStream().write(data); // ÀÌ·±½ÄÀ¸·Î ¹ÙÀÌÆ®¹è¿­À» º¸³½´Ù.
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			try {
+				user.sock.getOutputStream().write(data);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public void SetOwner(String _user) {
-		this.roomOwner = _user; // Æ¯Á¤ »ç¿ëÀÚ¸¦ ¹æÀåÀ¸·Î º¯°æÇÑ´Ù.
+		this.roomOwner = _user; // íŠ¹ì • ì‚¬ìš©ìë¥¼ ë°©ì¥ìœ¼ë¡œ ë³€ê²½í•œë‹¤.
 	}
 
-	public void SetRoomName(String _name) { // ¹æ ÀÌ¸§À» ¼³Á¤
+	public void SetRoomName(String _name) { // ë°© ì´ë¦„ì„ ì„¤ì •
 		this.roomName = _name;
 	}
 	
-	public String GetUserByNickName(String _nickName){ // ´Ğ³×ÀÓÀ» ÅëÇØ¼­ ¹æ¿¡ ¼ÓÇÑ À¯Àú¸¦ ¸®ÅÏÇÔ
+	public String GetUserByNickName(String _nickName){ // ë‹‰ë„¤ì„ì„ í†µí•´ì„œ ë°©ì— ì†í•œ ìœ ì €ë¥¼ ë¦¬í„´í•¨
 		
 		for(String user : userList){
 			if(user.equals(_nickName)){
-				return user; // À¯Àú¸¦ Ã£¾Ò´Ù¸é
+				return user; // ìœ ì €ë¥¼ ì°¾ì•˜ë‹¤ë©´
 			}
 		}
-		return null; // Ã£´Â À¯Àú°¡ ¾ø´Ù¸é
+		return null; // ì°¾ëŠ” ìœ ì €ê°€ ì—†ë‹¤ë©´
 	}
 
-	public String GetRoomName() { // ¹æ ÀÌ¸§À» °¡Á®¿È
+	public String GetRoomName() { // ë°© ì´ë¦„ì„ ê°€ì ¸ì˜´
 		return roomName;
 	}
 	
-	public int GetRoomNumber() { // ¹æ ¹øÈ£¸¦ °¡Á®¿È
+	public int GetRoomNumber() { // ë°© ë²ˆí˜¸ë¥¼ ê°€ì ¸ì˜´
 		return roomNumber;
 	}
 
-	public int GetUserSize() { // À¯ÀúÀÇ ¼ö¸¦ ¸®ÅÏ
+	public int GetUserSize() { // ìœ ì €ì˜ ìˆ˜ë¥¼ ë¦¬í„´
 		return userList.size();
 	}
 
-	public String GetOwner() { // ¹æÀåÀ» ¸®ÅÏ
+	public String GetOwner() { // ë°©ì¥ì„ ë¦¬í„´
 		return roomOwner;
 	}
 }
