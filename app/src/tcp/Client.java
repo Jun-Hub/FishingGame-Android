@@ -14,101 +14,53 @@ import java.util.Scanner;
 import org.json.simple.JSONObject;
 import com.google.gson.Gson;
 
-// ½ÇÁ¦·Î °ÔÀÓÀ» ÇÃ·¹ÀÌÇÏ´Â À¯ÀúÀÇ Å¬·¡½ºÀÌ´Ù.
-
 public class Client {
 
-	private GameRoom room; // À¯Àú°¡ ¼ÓÇÑ ·ëÀÌ´Ù
+	private GameRoom room; 
 	private Socket socket;
-	private String nickName = "ÆÄ¼ö²Û"; // À¯ÀúÀÇ ´Ğ³×ÀÓ
+	private String nickName = ""; // ìœ ì €ì˜ ë‹‰ë„¤ì„
 
 	
-	public Client() { // ¾Æ¹«·± Á¤º¸°¡ ¾ø´Â ±øÅë À¯Àú¸¦ ¸¸µé ¶§
+	public Client() { // ì•„ë¬´ëŸ° ì •ë³´ê°€ ì—†ëŠ” ê¹¡í†µ ìœ ì €ë¥¼ ë§Œë“¤ ë•Œ
 
 	}
 
-	public Client(Socket socket) { // ´Ğ³×ÀÓ Á¤º¸¸¸ °¡Áö°í »ı¼º(¹æÀÌ ºÎ¿©¾ÈµÇ°í, ¼­Ä¡ÁßÀÏ ¶§)
+	public Client(Socket socket) { // ë‹‰ë„¤ì„ ì •ë³´ë§Œ ê°€ì§€ê³  ìƒì„±(ë°©ì´ ë¶€ì—¬ì•ˆë˜ê³ , ì„œì¹˜ì¤‘ì¼ ë•Œ)
 		this.socket = socket;
 	}
 
-	public Client(Socket socket, GameRoom room) { // ´Ğ³×ÀÓ Á¤º¸¸¸ °¡Áö°í »ı¼º(¹æ¹Ù·Î ºÎ¿©..)
+	public Client(Socket socket, GameRoom room) { // ë‹‰ë„¤ì„ ì •ë³´ë§Œ ê°€ì§€ê³  ìƒì„±(ë°©ë°”ë¡œ ë¶€ì—¬..)
 		this.socket = socket;
 		this.room = room;
 	}
 
 	public void runningClient() {
-		// Å×ÀÌÅ¸¸¦ ¼Û¼ö½ÅÇÏ±â À§ÇÑ ¼ÒÄÏÀ» ÁØºñ
+		// í…Œì´íƒ€ë¥¼ ì†¡ìˆ˜ì‹ í•˜ê¸° ìœ„í•œ ì†Œì¼“ì„ ì¤€ë¹„
 
-		Socket socket = null; // 1. ¼ÒÄÏ°´Ã¼ »ı¼º
-		String userNickName = null;
-
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("°ÔÀÓ¿¡¼­ »ç¿ëÇÒ ´Ğ³×ÀÓÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-		userNickName = scanner.nextLine();
-
-		this.nickName = userNickName; // ÀÔ·Â¹ŞÀº ´Ğ³×ÀÓÀ¸·Î ´Ğ³×ÀÓ ¼³Á¤
-		System.out.println("´Ğ³×ÀÓ ¼³Á¤ ¿Ï·á : " + this.nickName);
-		System.out.println("");
-		
-		//°ÔÀÓ ¼­Ä¡ ±¸Çö
-		String search;	
-		System.out.println("¼­Ä¡ÇÏ·Á¸é 1¹øÀ» ÀÔ·ÂÇÏ¼¼¿ä");
-		search = scanner.nextLine();
-
-		if (!search.equals("1")) {
-			while (true) {
-				System.out.println("¼­Ä¡ÇÏ·Á¸é 1¹øÀ» ÀÔ·ÂÇÏ¶ó´Ï±î¿ä");
-				search = scanner.nextLine();
-
-				if (search.equals("1")) {
-					break;
-				}
-			}
-		}
+		Socket socket = null; // 1. ì†Œì¼“ê°ì²´ ìƒì„±
 		
 		try {		
-			socket = new Socket("localhost", 9000); // IP,Port ¹øÈ£¸¦ ¾Ë¾Æ¾ß Á¢¼ÓÀÌ °¡´ÉÇÔ.
+			socket = new Socket("localhost", 9000); // IP,Port 
 
-			// 2. µ¥ÀÌÅ¸ ¼Û¼ö½ÅÀ» À§ÇÑ i/o streamÀ» ¾ò¾î¾ß ÇÑ´Ù.
-			InputStream is = socket.getInputStream(); // ¼ö½Å --> read();
+			// 2. ë°ì´íƒ€ ì†¡ìˆ˜ì‹ ì„ ìœ„í•œ i/o streamì„ ì–»ì–´ì•¼ í•œë‹¤.
+			InputStream is = socket.getInputStream(); // ìˆ˜ì‹  --> read();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			OutputStream os = socket.getOutputStream(); // ¼Û½Å --> write();
+			OutputStream os = socket.getOutputStream(); // ì†¡ì‹  --> write();
 			PrintWriter pw = new PrintWriter(os);
 			
 			BufferedReader stringReader = new BufferedReader(new InputStreamReader(System.in));
 			
 			String json = "";
-			Gson gson = new Gson();	//Client °´Ã¼¸¦ Àü´ŞÇÏ±â À§ÇÑ Gson »ı¼º
+			Gson gson = new Gson();	//Client ê°ì²´ë¥¼ ì „ë‹¬í•˜ê¸° ìœ„í•œ Gson ìƒì„±
 			
-			json = gson.toJson(this);	//ÀÚ±â ÀÚ½ÅÀ» Jsonµ¥ÀÌÅÍ·Î º¯°æ
+			json = gson.toJson(this);	//ìê¸° ìì‹ ì„ Jsonë°ì´í„°ë¡œ ë³€ê²½
 			
-			pw.println(json);	//¼­¹ö·Î jsonÀü´Ş
-			pw.println(this.nickName);	//¼­¹ö·Î ÀÚ±â ´Ğ³×ÀÓ Àü´Ş
+			pw.println(json);	//ì„œë²„ë¡œ jsonì „ë‹¬
+			pw.println(this.nickName);	//ì„œë²„ë¡œ ìê¸° ë‹‰ë„¤ì„ ì „ë‹¬
 			pw.flush();
 			
 			ResponseThread responseThread = new ResponseThread(br);
-			responseThread.start();		//¼­¹ö·ÎºÎÅÍ ÀÀ´ä¹Ş¾Æ¼­ Ãâ·ÂÇÏ´Â ¾²·¹µå
-				
-			// 3_1. µ¥ÀÌÅ¸ ¼Û½Å
-			String attack = null;
-					
-			while (true) {
-				attack = stringReader.readLine();
-
-				if (!attack.equals("2")) {
-					while (true) {
-						System.out.println("°ø°İÇÏ·Á¸é 2¹øÀ» ÀÔ·ÂÇÏ¶ó´Ï±î¿ä");
-						attack = stringReader.readLine();
-
-						if (search.equals("2")) {
-							break;
-						}
-					}
-				}
-				pw.println(attack);
-				pw.flush();
-			}
-
+			responseThread.start();		//ì„œë²„ë¡œë¶€í„° ì‘ë‹µë°›ì•„ì„œ ì¶œë ¥í•˜ëŠ” ì“°ë ˆë“œ
 
 		} catch (UnknownHostException e) {
 			System.out.println(e.getMessage());
@@ -118,7 +70,7 @@ public class Client {
 			e.printStackTrace();
 		} finally {
 			 try {
-			 // 4. ¼ÒÄÏ ´İ±â --> ¿¬°á ²÷±â
+			 // 4. ì†Œì¼“ ë‹«ê¸° --> ì—°ê²° ëŠê¸°
 				 if(socket!=null)
 					 socket.close();
 				 if(scanner!=null)
@@ -134,11 +86,11 @@ public class Client {
 		
 	}
 	
-	// Thread Å¬·¡½º¸¦ »ó¼Ó¹ŞÀº Å¬·¡½º¸¦ »ı¼º
+	// Thread í´ë˜ìŠ¤ë¥¼ ìƒì†ë°›ì€ í´ë˜ìŠ¤ë¥¼ ìƒì„±
 	class ResponseThread extends Thread{
 		
 		BufferedReader bufferedReader;
-		String response = null;		//¼­¹ö·ÎºÎÅÍ ¹ŞÀ» ÀÀ´ä
+		String response = null;		//ì„œë²„ë¡œë¶€í„° ë°›ì„ ì‘ë‹µ
 		
 		public ResponseThread(BufferedReader bufferedReader) {
 			this.bufferedReader = bufferedReader;
@@ -152,9 +104,8 @@ public class Client {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				System.out.println(response);
 				
-				if(response.equals("éÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌGAME OVERéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌéÌ\n")) {
+				if(response.equals("GAME OVER\n")) {
 					break;
 				}
 			}
@@ -163,7 +114,6 @@ public class Client {
 	}
 
 	public void EnterRoom(GameRoom _room) {
-	//	_room.AddUser(this.nickName); // ·ë¿¡ ÀÔÀå½ÃÅ² ÈÄ
-		this.room = _room; // À¯Àú°¡ ¼ÓÇÑ ¹æÀ» ·ëÀ¸·Î º¯°æÇÑ´Ù.(Áß¿ä)
+		this.room = _room; // ìœ ì €ê°€ ì†í•œ ë°©ì„ ë£¸ìœ¼ë¡œ ë³€ê²½í•œë‹¤.(ì¤‘ìš”)
 	}
 }
