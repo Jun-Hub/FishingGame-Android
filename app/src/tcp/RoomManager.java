@@ -7,34 +7,20 @@ import java.util.List;
 
 public class RoomManager {
 
-	List<GameRoom> roomList; // ¹æÀÇ ¸®½ºÆ®
-//    HashMap<Boolean, GameRoom> roomMap;	//·ëÀÇ ·ë °íÀ¯¹øÈ£¿Í ÇØ´ç ·ëÀ» ´ãÀ» ÇØ½¬¸Ê »ı¼º
+	List<GameRoom> roomList; // ë°©ì˜ ë¦¬ìŠ¤íŠ¸
 
 	public RoomManager(){
 		roomList = new ArrayList<GameRoom>();
-//		roomMap = new HashMap<Boolean, GameRoom>();
 	}
 	
-//	public GameRoom CreateRoom(){ // ·ëÀ» »õ·Î »ı¼º(ºó ¹æ)
-//		GameRoom room = new GameRoom();
-//		roomList.add(room);
-//		roomMap.put(2, room);
-//		System.out.println("Room Created!");
-//		return room;
-//	}
-	
-	public GameRoom CreateRoom(String _owner){ // À¯Àú°¡ ¹æÀ» »ı¼ºÇÒ ¶§ »ç¿ë(À¯Àú°¡ ¹æÀåÀ¸·Î µé¾î°¨)
+	public GameRoom CreateRoom(String _owner){ // ìœ ì €ê°€ ë°©ì„ ìƒì„±í•  ë•Œ ì‚¬ìš©(ìœ ì €ê°€ ë°©ì¥ìœ¼ë¡œ ë“¤ì–´ê°)
 		GameRoom room = new GameRoom(false, _owner);
 		roomList.add(room);
-		System.out.println("Room Created!");
 		return room;
 	}
 	
-	public GameRoom CreateRoom(GameRoom room){	// ·ëÀ» »õ·Î »ı¼º(ºó ¹æ)
-		roomList.add(room);
-//		roomMap.put(room.full, room);
-		System.out.println("Room Created!");
-		
+	public GameRoom CreateRoom(GameRoom room){	// ë£¸ì„ ìƒˆë¡œ ìƒì„±(ë¹ˆ ë°©)
+		roomList.add(room);		
 		return room;
 	}
 	
@@ -46,9 +32,7 @@ public class RoomManager {
 	}
 	
 	public void RemoveRoom(GameRoom _room){
-		roomList.remove(_room); // Àü´Ş¹ŞÀº ·ëÀ» Á¦°ÅÇÑ´Ù.
-		System.out.println("Room Deleted!");
+		roomList.remove(_room); // ì „ë‹¬ë°›ì€ ë£¸ì„ ì œê±°
 	}
 	
-//	public static int RoomCount(){ return roomList.size();} // ·ëÀÇ Å©±â¸¦ ¸®ÅÏÇØ
 }
