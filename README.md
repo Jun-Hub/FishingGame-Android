@@ -1,27 +1,11 @@
 # FishingGame
-Android 1:1 game app. Network works by TCP/IP. Graphic work by Open GL ES 2.0
+Android 1:1 game app. Network works by TCP/IP. Graphic works by Open GL ES 2.0 <br><br>
+__[Demo Link](https://www.youtube.com/watch?v=03uGE45YfM0)__<br>
+[Network Code(TCP)](https://github.com/Jun-Hub/FishingGame-Android/tree/master/app/src/tcp)<br><br>
 
-Screenshots
----------------------------------------------------------------------------------------------
-![K-014](https://user-images.githubusercontent.com/54348567/68066489-3ea0ac00-fd7c-11e9-8caf-0e7e6c1a59c1.png)
-![K-015](https://user-images.githubusercontent.com/54348567/68066490-3f394280-fd7c-11e9-89af-653d576e3785.png)
-![K-016](https://user-images.githubusercontent.com/54348567/68066491-3f394280-fd7c-11e9-895f-05e27bd06e26.png)
-![K-017](https://user-images.githubusercontent.com/54348567/68066492-3f394280-fd7c-11e9-9794-f40cb355f9fa.png)
-![K-018](https://user-images.githubusercontent.com/54348567/68066493-3f394280-fd7c-11e9-8b27-59a686f6deff.png)
-<br>
-
-Demo Link
---------------------------------
-https://www.youtube.com/watch?v=03uGE45YfM0
-<br>
-
-App Info
--------------------------------------------------------------------
 채팅 기능이 들어간 1:1 네트워크 게임 <br>
 일정시간 마다 나오는 몬스터를 작살을 던져 처치하는 방식 <br>
-등장하는 몬스터를 전부 다 처치하면 게임 종료 후 점수 산출 <br>
-<br>
-
+등장하는 몬스터를 전부 다 처치하면 게임 종료 후 점수 산출 <br><br>
 
 기능
 - 회원가입, 로그인(페이스북 및 카카오 연동)
@@ -32,7 +16,6 @@ App Info
 - 로그인 로그와 게임로그를 MongoDB에 저장
 <br>
 
-
 기술 스택
 - OS: Linux(CentOS), Android <br>
 - Language: Java, PHP <br>
@@ -40,3 +23,12 @@ App Info
 - Database: Postgresql, MongoDB <br>
 - Library: OpenGL ES2.0 <br>
 - Protocol: HTTP, TCP/IP <br>
+
+
+Preview
+---------------------------------------------------------------------------------------------
+![K-014](https://user-images.githubusercontent.com/54348567/68066489-3ea0ac00-fd7c-11e9-8caf-0e7e6c1a59c1.png)
+![K-015](https://user-images.githubusercontent.com/54348567/68066490-3f394280-fd7c-11e9-89af-653d576e3785.png)
+![K-016](https://user-images.githubusercontent.com/54348567/68066491-3f394280-fd7c-11e9-895f-05e27bd06e26.png)
+![K-017](https://user-images.githubusercontent.com/54348567/68066492-3f394280-fd7c-11e9-9794-f40cb355f9fa.png)
+![K-018](https://user-images.githubusercontent.com/54348567/68066493-3f394280-fd7c-11e9-8b27-59a686f6deff.png)
