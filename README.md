@@ -1,7 +1,7 @@
 # FishingGame
 Android 1:1 game app. Network works by TCP/IP. Graphic works by Open GL ES 2.0 <br><br>
-__[Demo Link](https://www.youtube.com/watch?v=03uGE45YfM0)__<br>
-[Network Code(TCP)](https://github.com/Jun-Hub/FishingGame-Android/tree/master/app/src/tcp)<br><br>
+👉👉🏻[Demo Link](https://www.youtube.com/watch?v=03uGE45YfM0)<br>
+📡[Network Code(TCP)](https://github.com/Jun-Hub/FishingGame-Android/tree/master/app/src/tcp)<br><br>
 
 채팅 기능이 들어간 1:1 네트워크 게임 <br>
 일정시간 마다 나오는 몬스터를 작살을 던져 처치하는 방식 <br>
